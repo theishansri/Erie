@@ -4,6 +4,8 @@ import axios from 'axios';
 import Pagination from '../Pagination';
 import { connect } from 'react-redux';
 import { chart } from '../../Action/action';
+import {Link} from 'react-router-dom';
+import {fetch} from "../../Action/action"
 export class layout extends Component {
   constructor(props) {
     super(props);
@@ -18,6 +20,7 @@ export class layout extends Component {
   }
 
   componentDidMount = async () => {
+    this.props.fetch()
     let x = await axios.get(
       'https://cors-anywhere.herokuapp.com/http://starlord.hackerearth.com/bankAccount'
     );
@@ -28,19 +31,10 @@ export class layout extends Component {
     this.setState({
       loading: false
     });
-    let transaction = {};
-    // let wi = {};
-    // let de = {};
-    // let ba = {};
-
+    let transaction = new Array(12).fill(0);
     for (let i = 0; i < y.length; i++) {
-      //   de = { deposit: !y[i]['Deposit AMT'] ? 0 : y[i]['Deposit AMT'] };
-      //   wi = { withdraw: !y[i]['Withdrawal AMT'] ? 0 : y[i]['Withdrawal AMT'] };
-      //   ba = { balance: y[i]['Balance AMT'] };
-      console.log('y', y[i]);
       let x1 = new Date(y[i]['Date']);
-      x1 = x1.getMonth() + 1;
-      console.log('x1', x1)
+      x1 = x1.getMonth()
       let k1 = parseInt(
         !y[i]['Deposit AMT'] ? 0 : y[i]['Deposit AMT'].replace(/,/g, '')
       );
@@ -48,14 +42,14 @@ export class layout extends Component {
         !y[i]['Withdrawal AMT'] ? 0 : y[i]['Withdrawal AMT'].replace(/,/g, '')
       );
       let k3 = parseInt(y[i]['Balance AMT'].replace(/,/g, ''));
-      console.log("k1,k2,k3", k1, k2, k3)
-      transaction[x1] = {
-        ...transaction[x1],
-        'de': k1, 'wi': k2, 'ba': k3
+      if(transaction[x1]===0){
+        transaction[x1]={'de':k1,'wi':k2,'ba':k3}
       }
-      console.log("transaction", transaction)
+      else{
+        transaction[x1]={'de':k1+transaction[x1]['de'],'wi':k2+transaction[x1]['wi']
+      ,'ba':k3+transaction[x1]['ba']}
+      }
     }
-    console.log("las ttransaction", transaction)
     this.props.charts_data(transaction);
   }
 
@@ -87,9 +81,10 @@ export class layout extends Component {
               </div>
             </li>
             <li style={{ marginRight: '30px' }} className='right'>
-              <button type='button' className='btn btn-primary'>
+              <Link to='/stats'><button type='button' className='btn btn-primary'>
                 Get Stats of Transactions
               </button>
+              </Link>
             </li>
           </ul>
         </nav>
@@ -107,7 +102,8 @@ export class layout extends Component {
 }
 const mapDispatchToProps = dispatch => {
   return {
-    charts_data: y => dispatch(chart(y))
+    charts_data: y => dispatch(chart(y)),
+    fetch:()=>dispatch(fetch())
   };
 };
 export default connect(null, mapDispatchToProps)(layout);
