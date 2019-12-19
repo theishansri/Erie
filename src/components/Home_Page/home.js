@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Pagination from 'react-js-pagination';
 export class home extends Component {
   constructor(props) {
     super(props);

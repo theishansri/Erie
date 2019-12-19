@@ -8,13 +8,13 @@ function Pagination({ postperPage, totalPost, paginate }) {
   return (
     <div style={{ marginLeft: '115px' }}>
       <nav style={{ background: 'none', borderWidth: '0', boxShadow: 'none' }}>
-        <ul className='pagination'>
+        <ul className='pagination pagination-md'>
           {pagenumber.map(i => {
             return (
               <li key={i} className='page-item'>
-                <a onClick={() => paginate(i)} href='!#' className='page-link'>
+                <button onClick={() => paginate(i)} className='page-link'>
                   {i}
-                </a>
+                </button>
               </li>
             );
           })}
