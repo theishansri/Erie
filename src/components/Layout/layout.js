@@ -15,10 +15,21 @@ export class layout extends Component {
       currentPage: 1,
       loading: true,
       postperPage: 10,
-      transation: {}
+      transation: {},
+      term:''
     };
   }
-
+  searchingFor=(term)=>{
+    return function(x){
+      return x['Transaction Details'].toLowerCase().includes(term.toLowerCase())||!term;
+    }
+  }
+  handleChange=(e)=>{
+    this.setState({
+      term:e.target.value
+    }
+    )
+  }
   componentDidMount = async () => {
     this.props.fetch()
     let x = await axios.get(
@@ -53,7 +64,7 @@ export class layout extends Component {
     this.props.charts_data(transaction);
   }
 
-
+  
   paginate = page => {
     console.log(page);
     this.setState({
@@ -64,7 +75,15 @@ export class layout extends Component {
   render() {
     const indexLastPost = this.state.currentPage * this.state.postperPage;
     const indexFirstPost = indexLastPost - this.state.postperPage;
-    const currentPosts = this.state.data.slice(indexFirstPost, indexLastPost);
+    let currentPosts;
+    let xr;
+    if(this.state.term){
+      xr=this.state.data.filter(this.searchingFor(this.state.term))
+      currentPosts=xr.slice(indexFirstPost,indexLastPost)
+    }
+    else{
+      currentPosts = this.state.data.slice(indexFirstPost, indexLastPost);
+    }
     return (
       <div>
         <nav className='nav-wraper orange lighten-1'>
@@ -75,8 +94,9 @@ export class layout extends Component {
                   style={{ marginLeft: '353px', width: '492px' }}
                   className='form-control'
                   type='text'
-                  placeholder='Search'
+                  placeholder='Search By Customer Name'
                   aria-label='Search'
+                  onChange={this.handleChange}
                 />
               </div>
             </li>
@@ -92,7 +112,7 @@ export class layout extends Component {
           <Home data={currentPosts} loading={this.state.loading} />
           <Pagination
             postperPage={this.state.postperPage}
-            totalPost={this.state.data.length}
+            totalPost={this.state.term?xr.length:this.state.data.length}
             paginate={this.paginate}
           />
         </div>

@@ -6,11 +6,9 @@ import { Bar, Pie } from 'react-chartjs-2'
 import 'chartjs-plugin-datalabels';
 export class Chart extends Component {
   componentDidMount() {
-
     this.props.fetch()
   }
   render() {
-    console.log(this.props.data, "sdd")
     const month = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
     const deposit = []
     const withdraw = []
@@ -28,7 +26,6 @@ export class Chart extends Component {
       }
 
     }
-    console.log("deposit,wi,ba", deposit, withdraw, balance)
     const pie_data = {
       chartData: {
         labels: month,
@@ -152,7 +149,7 @@ export class Chart extends Component {
 
     const bar = (
       <div className="chart col-md-12">
-        <Pie data={pie_data.chartData} height={'160px'} options={{
+        <Pie data={pie_data.chartData} height={161} options={{
           plugins: {
             datalabels: {
               display: false,
@@ -180,7 +177,7 @@ export class Chart extends Component {
           },
           title: {
             display: true,
-            text: 'Deposits For each Month From Bank',
+            text: 'Deposits For each Month In Bank',
             fontSize: 25,
           },
           legend: {
@@ -216,17 +213,7 @@ export class Chart extends Component {
         <div>
           <nav className='nav-wraper orange lighten-1'>
             <ul>
-              <li>
-                <div className='md-form mt-0'>
-                  <input
-                    style={{ marginLeft: '353px', width: '492px' }}
-                    className='form-control'
-                    type='text'
-                    placeholder='Search'
-                    aria-label='Search'
-                  />
-                </div>
-              </li>
+              
               <li style={{ marginRight: '30px' }} className='right'>
                 <Link to='/'><button type='button' className='btn btn-primary'>
                   Home

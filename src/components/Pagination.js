@@ -12,9 +12,9 @@ function Pagination({ postperPage, totalPost, paginate }) {
           {pagenumber.map(i => {
             return (
               <li key={i} className='page-item'>
-                <a onClick={() => paginate(i)} className='page-link'>
+                <button onClick={() => paginate(i)} className='page-link'>
                   {i}
-                </a>
+                </button>
               </li>
             );
           })}
