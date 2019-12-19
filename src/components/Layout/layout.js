@@ -79,7 +79,11 @@ export class layout extends Component {
     let xr;
     if(this.state.term){
       xr=this.state.data.filter(this.searchingFor(this.state.term))
-      currentPosts=xr.slice(indexFirstPost,indexLastPost)
+      if(xr)
+        currentPosts=xr.slice(indexFirstPost,indexLastPost)
+      else{
+        xr=[]
+      }
     }
     else{
       currentPosts = this.state.data.slice(indexFirstPost, indexLastPost);
