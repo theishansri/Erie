@@ -42,8 +42,9 @@ export class home extends Component {
         })}
       </div>
     );
+    let p=this.props.data.length>0?l:<h5 className="font-weight-bold" style={{marginTop:21}}>Sorry No one By that Name</h5>
 
-    return <div>{this.props.loading ? <h2>Loading...</h2> : l}</div>;
+    return <div>{this.props.loading ? <h2>Loading...</h2> : p}</div>;
   }
 }
 
