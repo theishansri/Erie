@@ -66,7 +66,6 @@ export class layout extends Component {
 
   
   paginate = page => {
-    console.log(page);
     this.setState({
       currentPage: page
     });
@@ -75,7 +74,7 @@ export class layout extends Component {
   render() {
     const indexLastPost = this.state.currentPage * this.state.postperPage;
     const indexFirstPost = indexLastPost - this.state.postperPage;
-    let currentPosts;
+    let currentPosts=this.state.data.filter(this.searchingFor(this.state.term));
     let xr;
     if(this.state.term){
       xr=this.state.data.filter(this.searchingFor(this.state.term))

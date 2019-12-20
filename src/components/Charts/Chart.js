@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux';
 import { fetch } from '../../Action/action'
 import { Link } from 'react-router-dom';
-import { Bar, Pie } from 'react-chartjs-2'
+import { Bar, Pie,Doughnut } from 'react-chartjs-2'
 import 'chartjs-plugin-datalabels';
 export class Chart extends Component {
   componentDidMount() {
@@ -186,7 +186,7 @@ export class Chart extends Component {
         }}
         />
         <br />
-        <Bar data={data_2.chartData} width={20} height={10} options={{
+        <Doughnut  data={data_2.chartData} width={20} height={10} options={{
           plugins: {
             datalabels: {
               display: true,

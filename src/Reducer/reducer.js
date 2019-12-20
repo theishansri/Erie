@@ -5,7 +5,6 @@ const initiState = {
 const change = (state = initiState, action) => {
   switch (action.type) {
     case 'CHART':
-      console.log(state,action.payload)
       return {...state,
         data:[...action.payload]}
         ;
